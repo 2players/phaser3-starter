@@ -16,16 +16,25 @@ Having a consistent approach to identifying where some code or asset should live
 
 This directory contains any static code which isn't available through NPM, such as custom build of Phaser or CSS files.
 
-### `assets/`
+### `res/`
 
 This directory contains audios, spritesheets, XMLs, fonts, etc.
 
+Note: There is scanner for resources in this starter. You can get url of one resource like this:
+
+```js
+import res from 'res'
+
+const url = res.url('image.btn-play')
+```
+
 ### `src/`
 
-- `src/scenes/` - one file per scene that my game contains.
-- `src/objects/` - store entities that will exist in game.
-- `src/components/` - a collection of UI elements that I'll use to display information or interact with the player.
-- `src/util/` — helpers that aren't particularly tied to gameplay.
+- `src/scenes/` - store scenes, per file per scene.
+- `src/plugins/` - store plugins.
+- `src/objects/` - store entities.
+- `src/components/` - a collection of UI elements for displaying information or interact with the players.
+- `src/util/` — helpers.
 
 ## Available Commands
 
@@ -43,9 +52,7 @@ After starting the development server with `npm start`, you can edit any files i
 
 ## Deploying Code
 
-After you run the `npm run build` command, your code will be built into a single bundle located at `dist/bundle.min.js` along with any other assets you project depended.
-
-If you put the contents of the `dist` folder in a publicly-accessible location (say something like `http://example.com`), you should be able to open `http://example.com/index.html` and play your game.
+Put the contents of the `dist` folder in a publicly-accessible location.
 
 ## License
 

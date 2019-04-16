@@ -3,7 +3,7 @@ import res from 'res'
 
 class Boot extends Phaser.Scene {
   constructor() {
-    super('BootGame')
+    super('Boot')
   }
 
   init() {}

@@ -1,16 +1,12 @@
 # Phaser3 Starter
 
-A Phaser3 Starter with ES6 support via [Babel 7](https://babeljs.io/) and [Webpack 4](https://webpack.js.org/) that includes hot-reloading for development and production-ready builds.
+A Phaser3 Starter with ES6 support via [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/) that includes hot-reloading for development and production-ready builds.
 
 ## Requirements
 
 [Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
 
 ## Structure
-
-> Reference [here](https://github.com/jdotrjs/phaser-guides/blob/master/Basics/Part1.md).
-
-Having a consistent approach to identifying where some code or asset should live doesn't magically improve your code. Bugs still happen and code is still messy but it does remove some of the load of navigating your codebase.
 
 ### `vendor/`
 
@@ -46,13 +42,11 @@ const url = res.url('image.btn-play')
 
 ## Writing Code
 
-After cloning the repo, run `npm install` from your project directory. Then, you can start the local development server by running `npm start`.
-
-After starting the development server with `npm start`, you can edit any files in the `src` folder and webpack will automatically recompile and reload your server (available at `http://localhost:8080` by default).
+Just like writing general JavaScript project with Webpack.
 
 ## Deploying Code
 
-Put the contents of the `dist` folder in a publicly-accessible location.
+Put the contents of the `dist` folder in a public location.
 
 ## License
 

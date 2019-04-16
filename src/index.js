@@ -1,12 +1,12 @@
 import 'regenerator-runtime/runtime'
 
 import Phaser from 'phaser'
-import Boot from './scenes/Boot'
+import WebFontLoaderPlugin from './plugins/web-font-loader'
 
 import env from './util/env'
 import dc from './util/device-compatibility'
 
-import WebFontLoaderPlugin from './plugins/web-font-loader'
+import Boot from './scenes/Boot'
 
 if (env.isProduction()) {
   // remove useless reference of Phaser

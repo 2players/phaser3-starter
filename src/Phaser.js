@@ -1,72 +1,72 @@
-require('op/polyfills')
+require('original-phaser/polyfills')
 
-var CONST = require('op/const')
-var Extend = require('op/utils/object/Extend')
+var CONST = require('original-phaser/const')
+var Extend = require('original-phaser/utils/object/Extend')
 
 /**
  * @namespace Phaser
  */
 
 var Phaser = {
-  Animations: require('op/animations'),
-  Cache: require('op/cache'),
+  Animations: require('original-phaser/animations'),
+  Cache: require('original-phaser/cache'),
   Cameras: {
-    Scene2D: require('op/cameras/2d'),
+    Scene2D: require('original-phaser/cameras/2d'),
   },
-  // Core: require('op/core'),
-  Class: require('op/utils/Class'),
-  Data: require('op/data'),
-  Device: require('op/device'),
-  Display: require('op/display'),
-  DOM: require('op/dom'),
-  Events: require('op/events'),
-  Game: require('op/core/Game'),
+  // Core: require('original-phaser/core'),
+  Class: require('original-phaser/utils/Class'),
+  Data: require('original-phaser/data'),
+  Device: require('original-phaser/device'),
+  Display: require('original-phaser/display'),
+  DOM: require('original-phaser/dom'),
+  Events: require('original-phaser/events'),
+  Game: require('original-phaser/core/Game'),
   GameObjects: {
-    DisplayList: require('op/gameobjects/DisplayList'),
-    UpdateList: require('op/gameobjects/UpdateList'),
+    DisplayList: require('original-phaser/gameobjects/DisplayList'),
+    UpdateList: require('original-phaser/gameobjects/UpdateList'),
 
-    Image: require('op/gameobjects/image/Image'),
-    Sprite: require('op/gameobjects/sprite/Sprite'),
-    Text: require('op/gameobjects/text/static/Text'),
-    DOMElement: require('op/gameobjects/unofficial/domelement/DOMElement'),
-    HTML5Video: require('op/gameobjects/unofficial/html5video/HTML5Video'),
-    CanvasVideo: require('op/gameobjects/unofficial/canvasvideo/CanvasVideo'),
+    Image: require('original-phaser/gameobjects/image/Image'),
+    Sprite: require('original-phaser/gameobjects/sprite/Sprite'),
+    Text: require('original-phaser/gameobjects/text/static/Text'),
+    DOMElement: require('original-phaser/gameobjects/unofficial/domelement/DOMElement'),
+    HTML5Video: require('original-phaser/gameobjects/unofficial/html5video/HTML5Video'),
+    CanvasVideo: require('original-phaser/gameobjects/unofficial/canvasvideo/CanvasVideo'),
 
     Factories: {
-      Image: require('op/gameobjects/image/ImageFactory'),
-      Sprite: require('op/gameobjects/sprite/SpriteFactory'),
-      Text: require('op/gameobjects/text/static/TextFactory'),
-      DOMElement: require('op/gameobjects/unofficial/domelement/DOMElementFactory'),
-      HTML5Video: require('op/gameobjects/unofficial/html5video/HTML5VideoFactory'),
-      CanvasVideo: require('op/gameobjects/unofficial/canvasvideo/CanvasVideoFactory'),
+      Image: require('original-phaser/gameobjects/image/ImageFactory'),
+      Sprite: require('original-phaser/gameobjects/sprite/SpriteFactory'),
+      Text: require('original-phaser/gameobjects/text/static/TextFactory'),
+      DOMElement: require('original-phaser/gameobjects/unofficial/domelement/DOMElementFactory'),
+      HTML5Video: require('original-phaser/gameobjects/unofficial/html5video/HTML5VideoFactory'),
+      CanvasVideo: require('original-phaser/gameobjects/unofficial/canvasvideo/CanvasVideoFactory'),
     },
 
     Creators: {
-      Image: require('op/gameobjects/image/ImageCreator'),
-      Sprite: require('op/gameobjects/sprite/SpriteCreator'),
-      Text: require('op/gameobjects/text/static/TextCreator'),
+      Image: require('original-phaser/gameobjects/image/ImageCreator'),
+      Sprite: require('original-phaser/gameobjects/sprite/SpriteCreator'),
+      Text: require('original-phaser/gameobjects/text/static/TextCreator'),
     },
   },
   Loader: {
-    File: require('op/loader/File'),
+    File: require('original-phaser/loader/File'),
     FileTypes: {
-      ImageFile: require('op/loader/filetypes/ImageFile'),
-      AudioFile: require('op/loader/filetypes/AudioFile'),
-      HTML5AudioFile: require('op/loader/filetypes/HTML5AudioFile'),
-      AnimationJSONFile: require('op/loader/filetypes/AnimationJSONFile'),
+      ImageFile: require('original-phaser/loader/filetypes/ImageFile'),
+      AudioFile: require('original-phaser/loader/filetypes/AudioFile'),
+      HTML5AudioFile: require('original-phaser/loader/filetypes/HTML5AudioFile'),
+      AnimationJSONFile: require('original-phaser/loader/filetypes/AnimationJSONFile'),
     },
 
-    LoaderPlugin: require('op/loader/LoaderPlugin'),
+    LoaderPlugin: require('original-phaser/loader/LoaderPlugin'),
   },
-  Input: require('op/input'),
-  Plugins: require('op/plugins'),
-  Scale: require('op/scale'),
-  Scene: require('op/scene/Scene'),
-  Scenes: require('op/scene'),
-  Sound: require('op/sound'),
-  Textures: require('op/textures'),
-  Time: require('op/time'),
-  Tweens: require('op/tweens'),
+  Input: require('original-phaser/input'),
+  Plugins: require('original-phaser/plugins'),
+  Scale: require('original-phaser/scale'),
+  Scene: require('original-phaser/scene/Scene'),
+  Scenes: require('original-phaser/scene'),
+  Sound: require('original-phaser/sound'),
+  Textures: require('original-phaser/textures'),
+  Time: require('original-phaser/time'),
+  Tweens: require('original-phaser/tweens'),
 }
 
 //   Merge in the consts

@@ -31,7 +31,7 @@ module.exports = {
       res: resScanner,
       'res-dir': resolve('res'),
       phaser: resolve('src/Phaser.js'),
-      op: resolve('node_modules/phaser/src'), // original Phaser
+      'original-phaser': resolve('node_modules/phaser/src'),
     },
   },
   module: {

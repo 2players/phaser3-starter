@@ -4,6 +4,13 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
+function resolve(p) {
+  const ROOT = path.resolve(__dirname, '..')
+  return path.resolve(ROOT, p)
+}
+
+const resScanner = resolve('src/util/res.val.js')
+
 const useFileLoader = {
   loader: 'file-loader',
   options: {
@@ -17,14 +24,14 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
   },
-  entry: './src/index.js',
+  entry: resolve('src/index.js'),
   resolve: {
     symlinks: false,
     alias: {
-      res: path.resolve(__dirname, '../res'),
-      phaser: path.resolve(__dirname, '../src/Phaser.js'),
-      // original Phaser
-      op: path.resolve(__dirname, '../node_modules/phaser/src'),
+      res: resScanner,
+      'res-dir': resolve('res'),
+      phaser: resolve('src/Phaser.js'),
+      op: resolve('node_modules/phaser/src'), // original Phaser
     },
   },
   module: {
@@ -34,6 +41,16 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+        },
+      },
+      {
+        test: resScanner,
+        exclude: /node_modules/,
+        use: {
+          loader: 'val-loader',
+          options: {
+            basedir: './res',
+          },
         },
       },
       {
@@ -55,7 +72,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({ template: resolve('src/index.html') }),
     new webpack.DefinePlugin({
       'typeof WEBGL_RENDERER': JSON.stringify(true),
       'typeof CANVAS_RENDERER': JSON.stringify(true),

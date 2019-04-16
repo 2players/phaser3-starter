@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
-import _font from 'res/fonts/stacked-pixel.ttf'
-import _btn_play from 'res/sprites/btn-play.png'
+import res from 'res'
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -10,11 +9,11 @@ class Boot extends Phaser.Scene {
   init() {}
 
   preload() {
-    this.load.webFont('Stacked Pixel', _font)
+    this.load.webFont('Stacked Pixel', res.url('font.stacked-pixel'))
   }
 
   create() {
-    this.load.image('btn-play', _btn_play)
+    this.load.image('btn-play', res.url('image.btn-play'))
 
     this.load.on('complete', () => {
       this.renderUI()

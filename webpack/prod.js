@@ -1,9 +1,10 @@
 /* eslint-env node */
 const merge = require('webpack-merge')
 const TerserPlugin = require('terser-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const base = require('./base')
 
-module.exports = merge(base, {
+let productionSettings = {
   mode: 'production',
   output: {
     filename: '[name].[chunkhash:8].js',
@@ -26,4 +27,18 @@ module.exports = merge(base, {
       }),
     ],
   },
-})
+}
+
+if (process.env.ANALYZE_BUNDLE) {
+  productionSettings = merge(productionSettings, {
+    plugins: [
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        defaultSizes: 'gzip',
+        openAnalyzer: true,
+      }),
+    ],
+  })
+}
+
+module.exports = merge(base, productionSettings)

@@ -4,7 +4,9 @@
   "description": "Starter for Phaser3.",
   "private": true,
   "scripts": {
-    "build:preview": "webpack --config webpack/prod.js ",
+    "build": "npm run build:release",
+    "build:release": "webpack --config webpack/prod.js ",
+    "build:analyze": "ANALYZE_BUNDLE=true webpack --config webpack/prod.js ",
     "start": "webpack-dev-server --config webpack/dev.js"
   },
   "author": "m31271n",

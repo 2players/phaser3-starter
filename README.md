@@ -1,6 +1,11 @@
-# Phaser3 Starter
+# Starter Phaser3
 
-A Phaser3 Starter with ES6 support via [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/) that includes hot-reloading for development and production-ready builds.
+> Scaffold out a game supported by Phaser3.
+
+## Features
+
+- ES6 support via [Babel](https://babeljs.io/)
+- [Webpack](https://webpack.js.org/) that includes hot-reloading for development and production-ready builds.
 
 ## Requirements
 

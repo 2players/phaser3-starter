@@ -1,7 +1,7 @@
 {
-  "name": "phaser3-starter",
+  "name": "starter-phaser3",
   "version": "1.0.0",
-  "description": "Starter for Phaser3.",
+  "description": "Scaffold out a game supported by Phaser3.",
   "private": true,
   "scripts": {
     "build": "npm run build:release",

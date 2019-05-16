@@ -28,17 +28,11 @@ var Phaser = {
     Image: require('original-phaser/gameobjects/image/Image'),
     Sprite: require('original-phaser/gameobjects/sprite/Sprite'),
     Text: require('original-phaser/gameobjects/text/static/Text'),
-    DOMElement: require('original-phaser/gameobjects/unofficial/domelement/DOMElement'),
-    HTML5Video: require('original-phaser/gameobjects/unofficial/html5video/HTML5Video'),
-    CanvasVideo: require('original-phaser/gameobjects/unofficial/canvasvideo/CanvasVideo'),
 
     Factories: {
       Image: require('original-phaser/gameobjects/image/ImageFactory'),
       Sprite: require('original-phaser/gameobjects/sprite/SpriteFactory'),
       Text: require('original-phaser/gameobjects/text/static/TextFactory'),
-      DOMElement: require('original-phaser/gameobjects/unofficial/domelement/DOMElementFactory'),
-      HTML5Video: require('original-phaser/gameobjects/unofficial/html5video/HTML5VideoFactory'),
-      CanvasVideo: require('original-phaser/gameobjects/unofficial/canvasvideo/CanvasVideoFactory'),
     },
 
     Creators: {

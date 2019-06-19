@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import res from 'res'
-import { Player } from '../Entities'
+import { Player, GunShip } from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -73,7 +73,26 @@ class Main extends Phaser.Scene {
     const x = this.game.config.width * 0.5
     const y = this.game.config.height * 0.5
     this.player = new Player(this, x, y, 'sprPlayer')
+    this.playerLasers = this.add.group()
 
+    this.enemies = this.add.group()
+    this.enemyLasers = this.add.group()
+
+    this.time.addEvent({
+      delay: 100,
+      callback: function() {
+        const enemy = new GunShip(
+          this,
+          Phaser.Math.Between(0, this.game.config.width),
+          0
+        )
+        this.enemies.add(enemy)
+      },
+      callbackScope: this,
+      loop: true,
+    })
+
+    // controls
     this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
     this.keyDOWN = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.DOWN

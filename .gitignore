@@ -1,6 +1,12 @@
-# Vendors
-node_modules/
+# See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# Build
-dist/
-/npm-debug.log
+# dependencies
+/node_modules
+
+# production
+/dist
+
+# misc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

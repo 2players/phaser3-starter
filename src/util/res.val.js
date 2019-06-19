@@ -135,7 +135,7 @@ function detectType(extname) {
     },
     {
       type: 'audio',
-      re: /\.(mp3|ogg)/,
+      re: /\.(mp3|ogg|wav)/,
     },
     {
       type: 'video',

@@ -41,5 +41,18 @@
         <p>需要开启 JavaScript。</p>
       </div>
     </noscript>
+
+    <% for (const js of htmlWebpackPlugin.files.js) {%>
+    <script type="text/javascript" src="<%= js %>"></script>
+    <% } %>
+
+    <% if (APP_ENV === 'local') { %>
+    <% } %>
+
+    <% if (APP_ENV === 'preview') { %>
+    <% } %>
+
+    <% if (APP_ENV === 'release') { %>
+    <% } %>
   </body>
 </html>

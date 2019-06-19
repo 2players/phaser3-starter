@@ -6,8 +6,6 @@ const setupIO = require('./webpack.parts/setup-io')
 const setupDevServer = require('./webpack.parts/setup-dev-server')
 const loadHTML = require('./webpack.parts/load-html')
 const loadJS = require('./webpack.parts/load-js')
-const loadJSX = require('./webpack.parts/load-jsx')
-const loadMacro = require('./webpack.parts/load-macro')
 const loadMedia = require('./webpack.parts/load-media')
 const loadEnvs = require('./webpack.parts/load-envs')
 const minify = require('./webpack.parts/minify')
@@ -22,7 +20,6 @@ function resolve(p) {
 
 const PATH_SRC = resolve('src')
 const PATH_PHASER_ENTRY = resolve('node_modules/phaser/src/phaser.js')
-const PATH_PHASER_SRC = resolve('node_modules/phaser/src')
 const PATH_RES_SCANNER = resolve('src/util/res.val.js')
 const PATH_RES_DIR = resolve('res')
 
@@ -36,7 +33,7 @@ const commonConfig = merge([
   {
     resolve: {
       alias: {
-        // phaser: PATH_PHASER_ENTRY,
+        phaser: PATH_PHASER_ENTRY,
         res: PATH_RES_SCANNER,
         'res-dir': PATH_RES_DIR,
       },

@@ -79,7 +79,7 @@ class Main extends Phaser.Scene {
     this.enemyLasers = this.add.group()
 
     this.time.addEvent({
-      delay: 100,
+      delay: 1000,
       callback: function() {
         const enemy = new GunShip(
           this,

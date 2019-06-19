@@ -4,12 +4,13 @@
   "description": "Scaffold out a game supported by Phaser3.",
   "private": true,
   "scripts": {
-    "build": "npm run build:release",
-    "build:release": "webpack --config webpack/prod.js ",
-    "build:analyze": "ANALYZE_BUNDLE=true webpack --config webpack/prod.js ",
-    "start": "webpack-dev-server --mode development --disable-host-check --hot"
+    "start": "APP_ENV=local W_FILE_HASH=true webpack-dev-server --mode development --disable-host-check --hot",
+    "build:preview": "APP_ENV=preview W_FILE_HASH=true W_FILE_FLAT=true W_MODE=production webpack --mode production",
+    "preview": "npm run build:preview && echo 'placeholder'",
+    "build:release": "APP_ENV=release W_FILE_HASH=true W_FILE_FLAT=true W_MODE=production W_PUBLIC_PATH='' webpack --mode production",
+    "release": "yarn build:release && echo 'placeholder'",
+    "lint": "eslint 'src/**/*.js'"
   },
-  "author": "m31271n",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -20,6 +21,7 @@
     "babel-loader": "^8.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.1.4",
     "fast-glob": "^3.0.1",
     "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
@@ -34,7 +36,6 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "core-js": "^3.1.4",
     "phaser": "^3.17.0",
     "webfontloader": "^1.6.28"
   }

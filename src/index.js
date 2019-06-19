@@ -16,20 +16,24 @@ if (env.isProduction()) {
 dc.disableScroll()
 
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.WEBGL,
   autoFocus: true,
   parent: 'game-container',
-  scaleMode: Phaser.Scale.ENVELOP,
+  scaleMode: Phaser.Scale.FIT,
   autoCenter: Phaser.Scale.CENTER_BOTH,
   forceOrientation: true,
   banner: !env.isProduction(),
-  width: 1500,
-  height: 750,
+  width: 480,
+  height: 640,
   backgroundColor: 0x000000,
-  transparent: true,
   scene: [Boot],
+  pixelArt: true,
+  roundPixels: true,
   physics: {
     default: 'arcade',
+    arcade: {
+      gravity: { x: 0, y: 0 },
+    },
   },
   plugins: {
     global: [

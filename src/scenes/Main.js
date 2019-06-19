@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import res from 'res'
+import { Player } from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -67,6 +68,40 @@ class Main extends Phaser.Scene {
         this.sound.add('sndExplode1'),
       ],
       laser: this.sound.add('sndLaser'),
+    }
+
+    const x = this.game.config.width * 0.5
+    const y = this.game.config.height * 0.5
+    this.player = new Player(this, x, y, 'sprPlayer')
+
+    this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
+    this.keyDOWN = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.DOWN
+    )
+    this.keyLEFT = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.LEFT
+    )
+    this.keyRIGHT = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.RIGHT
+    )
+    this.keySPACE = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    )
+  }
+
+  update() {
+    this.player.update()
+
+    if (this.keyUP.isDown) {
+      this.player.moveUp()
+    } else if (this.keyDOWN.isDown) {
+      this.player.moveDown()
+    }
+
+    if (this.keyLEFT.isDown) {
+      this.player.moveLeft()
+    } else if (this.keyRIGHT.isDown) {
+      this.player.moveRight()
     }
   }
 }

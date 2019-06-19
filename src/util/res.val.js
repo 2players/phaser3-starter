@@ -6,7 +6,7 @@
  * Currently, this module needs webpack and val-loader.
  *
  * Usage:
- *   import res from '!val-loader?basedir=./basedirOfResources!./util/res'
+ *   import res from '!val-loader?basedir=./basedirOfResources!./path/to/res.val.js'
  *
  * @example
  * // structure of metadata array.

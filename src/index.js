@@ -6,7 +6,9 @@ import WebFontLoaderPlugin from './plugins/web-font-loader'
 import env from './util/env'
 import dc from './util/device-compatibility'
 
-import Boot from './scenes/Boot'
+import MainMenu from './scenes/MainMenu'
+import Main from './scenes/Main'
+import GameOver from './scenes/GameOver'
 
 if (env.isProduction()) {
   // remove useless reference of Phaser
@@ -26,7 +28,7 @@ const config = {
   width: 480,
   height: 640,
   backgroundColor: 0x000000,
-  scene: [Boot],
+  scene: [MainMenu, Main, GameOver],
   pixelArt: true,
   roundPixels: true,
   physics: {

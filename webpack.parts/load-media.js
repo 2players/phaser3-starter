@@ -13,7 +13,7 @@ const loadMedia = ({ include, exclude } = {}) => ({
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|svg|mp4|ts|m4a|mp3|ogg|atlas|xml|txt|cfg|woff|woff2|eot|ttf|otf|fnt)$/,
+        test: /\.(png|jpe?g|gif|svg|mp4|ts|m4a|mp3|wav|ogg|atlas|xml|txt|cfg|woff|woff2|eot|ttf|otf|fnt)$/,
         include,
         exclude,
         use,

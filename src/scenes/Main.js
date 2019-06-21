@@ -156,6 +156,17 @@ class Main extends Phaser.Scene {
     } else if (this.keyRIGHT.isDown) {
       this.player.moveRight()
     }
+
+    if (this.keySPACE.isDown) {
+      this.player.setData('isShooting', true)
+    } else {
+      this.player.setData(
+        'timerShootTick',
+        this.player.getData('timerShootDelay') - 1
+      )
+
+      this.player.setData('isShooting', false)
+    }
   }
 }
 

@@ -17,6 +17,10 @@ export class Player extends Entity {
 
     this.setData('speed', 200)
     this.play('sprPlayer')
+
+    this.setData('isShooting', false)
+    this.setData('timerShootDelay', 10)
+    this.setData('timerShootTick', this.getData('timerShootDelay') - 1)
   }
 
   moveUp() {
@@ -40,6 +44,19 @@ export class Player extends Entity {
 
     this.x = Phaser.Math.Clamp(this.x, 0, this.scene.game.config.width)
     this.y = Phaser.Math.Clamp(this.y, 0, this.scene.game.config.height)
+
+    if (this.getData('isShooting')) {
+      if (this.getData('timerShootTick') < this.getData('timerShootDelay')) {
+        const key = 'timerShootTick'
+        const currentTimerShootTick = this.getData(key)
+        this.setData(key, currentTimerShootTick + 1)
+      } else {
+        const laser = new PlayerLaser(this.scene, this.x, this.y)
+        this.scene.playerLasers.add(laser)
+        this.scene.sfx.laser.play()
+        this.setData('timerShootTick', 0)
+      }
+    }
   }
 }
 
@@ -121,6 +138,13 @@ export class CarrierShip extends Entity {
     super(scene, x, y, 'sprEnemy2', 'Carriership')
     this.play('sprEnemy2')
     this.body.velocity.y = Phaser.Math.Between(50, 100)
+  }
+}
+
+export class PlayerLaser extends Entity {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'sprLaserPlayer')
+    this.body.velocity.y = -200
   }
 }
 

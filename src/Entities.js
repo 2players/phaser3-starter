@@ -46,7 +46,46 @@ export class Player extends Entity {
 export class ChaserShip extends Entity {
   constructor(scene, x, y) {
     super(scene, x, y, 'sprEnemy1', 'Chasership')
+
     this.body.velocity.y = Phaser.Math.Between(50, 100)
+    this.states = {
+      MOVE_DOWN: 'MOVE_DOWN',
+      CHASE: 'CHASE',
+    }
+    this.state = this.states.MOVE_DOWN
+  }
+
+  update() {
+    if (!this.getData('isDead') && this.scene.player) {
+      const { x, y } = this
+      const { x: playerX, y: playerY } = this.scene.player
+
+      const distance = Phaser.Math.Distance.Between(x, y, playerX, playerY)
+
+      if (distance < 320) {
+        this.state = this.states.CHASE
+      }
+    }
+
+    if (this.state === this.states.CHASE) {
+      const { x, y } = this
+      const { x: playerX, y: playerY } = this.scene.player
+
+      const dx = playerX - x
+      const dy = playerY - y
+
+      const angle = Math.atan2(dy, dx)
+      const speed = 100
+      this.body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed)
+    }
+
+    const { x } = this
+    const { x: playerX } = this.scene.player
+    if (x < playerX) {
+      this.angle -= 5
+    } else {
+      this.angle += 5
+    }
   }
 }
 

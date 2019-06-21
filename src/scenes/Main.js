@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import res from 'res'
-import { Player, GunShip } from '../Entities'
+import { Player, GunShip, ChaserShip, CarrierShip } from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -81,12 +81,10 @@ class Main extends Phaser.Scene {
     this.time.addEvent({
       delay: 1000,
       callback: function() {
-        const enemy = new GunShip(
-          this,
-          Phaser.Math.Between(0, this.game.config.width),
-          0
-        )
-        this.enemies.add(enemy)
+        const enemy = this.generateEnemy()
+        if (enemy !== null) {
+          this.enemies.add(enemy)
+        }
       },
       callbackScope: this,
       loop: true,
@@ -108,8 +106,44 @@ class Main extends Phaser.Scene {
     )
   }
 
+  generateEnemy() {
+    let enemy = null
+
+    const random = Phaser.Math.Between(0, 10)
+    const position = [Phaser.Math.Between(0, this.game.config.width), 0]
+
+    const chaserShipTotal = this.getEnemiesByType('ChaserShip').length
+
+    if (random >= 5 && chaserShipTotal < 5) {
+      enemy = new ChaserShip(this, ...position)
+    } else if (random >= 3) {
+      enemy = new GunShip(this, ...position)
+    } else {
+      enemy = new CarrierShip(this, ...position)
+    }
+
+    if (enemy !== null) {
+      const scale = Phaser.Math.Between(10, 20) * 0.1
+      enemy.setScale(scale)
+    }
+
+    return enemy
+  }
+
+  getEnemiesByType(type) {
+    const enemies = this.enemies.getChildren()
+    return enemies.filter(enemy => {
+      return enemy.getData('type') === type
+    })
+  }
+
   update() {
     this.player.update()
+
+    const enemies = this.enemies.getChildren()
+    for (const enemy of enemies) {
+      enemy.update()
+    }
 
     if (this.keyUP.isDown) {
       this.player.moveUp()

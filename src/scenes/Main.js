@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import res from 'res'
-import { Player, GunShip, ChaserShip, CarrierShip } from '../Entities'
+import { Player, GunShip, CarrierShip } from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -90,6 +90,38 @@ class Main extends Phaser.Scene {
       loop: true,
     })
 
+    this.physics.add.collider(this.playerLasers, this.enemies, function(
+      laser,
+      enemy
+    ) {
+      if (enemy) {
+        enemy.onDestroy?.()
+        enemy.explode(true)
+
+        laser.destroy()
+      }
+    })
+
+    this.physics.add.collider(this.player, this.enemies, function(
+      player,
+      enemy
+    ) {
+      if (!player.getData('isDead') && !enemy.getData('isDead')) {
+        player.explode(false)
+        enemy.explode(true)
+      }
+    })
+
+    this.physics.add.collider(this.player, this.enemyLasers, function(
+      player,
+      laser
+    ) {
+      if (!player.getData('isDead') && !laser.getData('isDead')) {
+        player.explode(false)
+        laser.destroy()
+      }
+    })
+
     // controls
     this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
     this.keyDOWN = this.input.keyboard.addKey(
@@ -115,7 +147,7 @@ class Main extends Phaser.Scene {
     const chaserShipTotal = this.getEnemiesByType('ChaserShip').length
 
     if (random >= 5 && chaserShipTotal < 5) {
-      enemy = new ChaserShip(this, ...position)
+      // enemy = new ChaserShip(this, ...position)
     } else if (random >= 3) {
       enemy = new GunShip(this, ...position)
     } else {
@@ -138,34 +170,81 @@ class Main extends Phaser.Scene {
   }
 
   update() {
-    this.player.update()
+    // console.log(
+    //   this.enemies.getLength(),
+    //   this.enemyLasers.getLength(),
+    //   this.playerLasers.getLength()
+    // )
+
+    if (!this.player.getData('isDead')) {
+      this.player.update()
+      if (this.keyUP.isDown) {
+        this.player.moveUp()
+      } else if (this.keyDOWN.isDown) {
+        this.player.moveDown()
+      }
+
+      if (this.keyLEFT.isDown) {
+        this.player.moveLeft()
+      } else if (this.keyRIGHT.isDown) {
+        this.player.moveRight()
+      }
+
+      if (this.keySPACE.isDown) {
+        this.player.setData('isShooting', true)
+      } else {
+        this.player.setData(
+          'timerShootTick',
+          this.player.getData('timerShootDelay')
+        )
+
+        this.player.setData('isShooting', false)
+      }
+    }
 
     const enemies = this.enemies.getChildren()
     for (const enemy of enemies) {
       enemy.update()
+
+      if (
+        enemy.x < -enemy.displayWidth ||
+        enemy.x > this.game.config.width + enemy.displayWidth ||
+        enemy.y < -enemy.displayWidth * 4 ||
+        enemy.y > this.game.config.height + enemy.displayHeight
+      ) {
+        if (enemy) {
+          enemy.onDestroy?.()
+          enemy.destroy()
+        }
+      }
     }
 
-    if (this.keyUP.isDown) {
-      this.player.moveUp()
-    } else if (this.keyDOWN.isDown) {
-      this.player.moveDown()
+    const enemyLasers = this.enemyLasers.getChildren()
+    for (const laser of enemyLasers) {
+      laser.update()
+
+      if (
+        laser.x < -laser.displayWidth ||
+        laser.x > this.game.config.width + laser.displayWidth ||
+        laser.y < -laser.displayWidth * 4 ||
+        laser.y > this.game.config.height + laser.displayHeight
+      ) {
+        laser.destroy()
+      }
     }
 
-    if (this.keyLEFT.isDown) {
-      this.player.moveLeft()
-    } else if (this.keyRIGHT.isDown) {
-      this.player.moveRight()
-    }
+    const playerLasers = this.playerLasers.getChildren()
+    for (const laser of playerLasers) {
+      laser.update()
 
-    if (this.keySPACE.isDown) {
-      this.player.setData('isShooting', true)
-    } else {
-      this.player.setData(
-        'timerShootTick',
-        this.player.getData('timerShootDelay')
-      )
-
-      this.player.setData('isShooting', false)
+      if (
+        laser.x < -laser.displayWidth ||
+        laser.x > this.game.config.width + laser.displayWidth ||
+        laser.y < -laser.displayWidth * 4 ||
+        laser.y > this.game.config.height + laser.displayHeight
+      ) {
+        laser.destroy()
+      }
     }
   }
 }

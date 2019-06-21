@@ -162,7 +162,7 @@ class Main extends Phaser.Scene {
     } else {
       this.player.setData(
         'timerShootTick',
-        this.player.getData('timerShootDelay') - 1
+        this.player.getData('timerShootDelay')
       )
 
       this.player.setData('isShooting', false)

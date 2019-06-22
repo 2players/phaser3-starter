@@ -138,7 +138,9 @@ class Main extends Phaser.Scene {
   prepareMultimedia() {
     this.anims.create({
       key: 'animation.player',
-      frames: this.anims.generateFrameNumbers('spritesheet.player'),
+      frames: this.anims.generateFrameNumbers('spritesheet.player', {
+        frames: [2, 7],
+      }),
       frameRate: 20,
       repeat: -1,
     })
@@ -178,7 +180,6 @@ class Main extends Phaser.Scene {
       }),
       frameRate: 10,
       repeat: -1,
-      yoyo: true,
     })
 
     this.anims.create({

@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import res from 'res'
-import { Player, GunShip, CarrierShip } from '../Entities'
+import { Player, EnemyBig, EnemyMedium, EnemySmall } from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -8,87 +8,58 @@ class Main extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('sprBg0', res.url('sprBg0'))
+    this.load.spritesheet('spritesheet.player', res.url('spritesheet.player'), {
+      frameWidth: 16,
+      frameHeight: 24,
+    })
+    this.load.spritesheet(
+      'spritesheet.enemy-small',
+      res.url('spritesheet.enemy-small'),
+      {
+        frameWidth: 16,
+        frameHeight: 16,
+      }
+    )
+    this.load.spritesheet(
+      'spritesheet.enemy-medium',
+      res.url('spritesheet.enemy-medium'),
+      {
+        frameWidth: 32,
+        frameHeight: 16,
+      }
+    )
+    this.load.spritesheet(
+      'spritesheet.enemy-big',
+      res.url('spritesheet.enemy-big'),
+      {
+        frameWidth: 32,
+        frameHeight: 32,
+      }
+    )
+    this.load.spritesheet(
+      'spritesheet.explosion',
+      res.url('spritesheet.explosion'),
+      {
+        frameWidth: 16,
+        frameHeight: 16,
+      }
+    )
+    this.load.spritesheet('spritesheet.laser', res.url('spritesheet.laser'), {
+      frameWidth: 16,
+      frameHeight: 16,
+    })
 
-    this.load.image('sprBg1', res.url('sprBg1'))
-    this.load.spritesheet('sprExplosion', res.url('sprExplosion'), {
-      frameWidth: 32,
-      frameHeight: 32,
-    })
-    this.load.spritesheet('sprEnemy0', res.url('sprEnemy0'), {
-      frameWidth: 16,
-      frameHeight: 16,
-    })
-    this.load.image('sprEnemy1', res.url('sprEnemy1'))
-    this.load.spritesheet('sprEnemy2', res.url('sprEnemy2'), {
-      frameWidth: 16,
-      frameHeight: 16,
-    })
-    this.load.image('sprLaserEnemy0', res.url('sprLaserEnemy0'))
-    this.load.image('sprLaserPlayer', res.url('sprLaserPlayer'))
-    this.load.spritesheet('sprPlayer', res.url('sprPlayer'), {
-      frameWidth: 16,
-      frameHeight: 16,
-    })
-
-    this.load.audio('sndExplode0', res.url('sndExplode0'))
-    this.load.audio('sndExplode1', res.url('sndExplode1'))
-    this.load.audio('sndLaser', res.url('sndLaser'))
+    this.load.audio('snd.explode0', res.url('snd.explode0'))
+    this.load.audio('snd.explode1', res.url('snd.explode1'))
+    this.load.audio('snd.laser', res.url('snd.laser'))
   }
 
   create() {
-    this.anims.create({
-      key: 'sprEnemy0',
-      frames: this.anims.generateFrameNumbers('sprEnemy0'),
-      frameRate: 20,
-      repeat: -1,
-    })
-    this.anims.create({
-      key: 'sprEnemy2',
-      frames: this.anims.generateFrameNumbers('sprEnemy2'),
-      frameRate: 20,
-      repeat: -1,
-    })
-    this.anims.create({
-      key: 'sprExplosion',
-      frames: this.anims.generateFrameNumbers('sprExplosion'),
-      frameRate: 20,
-      repeat: 0,
-    })
-    this.anims.create({
-      key: 'sprPlayer',
-      frames: this.anims.generateFrameNumbers('sprPlayer'),
-      frameRate: 20,
-      repeat: -1,
-    })
+    this.prepareMultimedia()
+    this.prepareController()
 
-    this.sfx = {
-      explosions: [
-        this.sound.add('sndExplode0'),
-        this.sound.add('sndExplode1'),
-      ],
-      laser: this.sound.add('sndLaser'),
-    }
-
-    const x = this.game.config.width * 0.5
-    const y = this.game.config.height * 0.5
-    this.player = new Player(this, x, y, 'sprPlayer')
-    this.playerLasers = this.add.group()
-
-    this.enemies = this.add.group()
-    this.enemyLasers = this.add.group()
-
-    this.time.addEvent({
-      delay: 1000,
-      callback: function() {
-        const enemy = this.generateEnemy()
-        if (enemy !== null) {
-          this.enemies.add(enemy)
-        }
-      },
-      callbackScope: this,
-      loop: true,
-    })
+    this.createPlayer()
+    this.createEnemies()
 
     this.physics.add.collider(this.playerLasers, this.enemies, function(
       laser,
@@ -121,61 +92,9 @@ class Main extends Phaser.Scene {
         laser.destroy()
       }
     })
-
-    // controls
-    this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
-    this.keyDOWN = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.DOWN
-    )
-    this.keyLEFT = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.LEFT
-    )
-    this.keyRIGHT = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.RIGHT
-    )
-    this.keySPACE = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
-    )
-  }
-
-  generateEnemy() {
-    let enemy = null
-
-    const random = Phaser.Math.Between(0, 10)
-    const position = [Phaser.Math.Between(0, this.game.config.width), 0]
-
-    const chaserShipTotal = this.getEnemiesByType('ChaserShip').length
-
-    if (random >= 5 && chaserShipTotal < 5) {
-      // enemy = new ChaserShip(this, ...position)
-    } else if (random >= 3) {
-      enemy = new GunShip(this, ...position)
-    } else {
-      enemy = new CarrierShip(this, ...position)
-    }
-
-    if (enemy !== null) {
-      const scale = Phaser.Math.Between(10, 20) * 0.1
-      enemy.setScale(scale)
-    }
-
-    return enemy
-  }
-
-  getEnemiesByType(type) {
-    const enemies = this.enemies.getChildren()
-    return enemies.filter(enemy => {
-      return enemy.getData('type') === type
-    })
   }
 
   update() {
-    // console.log(
-    //   this.enemies.getLength(),
-    //   this.enemyLasers.getLength(),
-    //   this.playerLasers.getLength()
-    // )
-
     if (!this.player.getData('isDead')) {
       this.player.update()
       if (this.keyUP.isDown) {
@@ -191,60 +110,164 @@ class Main extends Phaser.Scene {
       }
 
       if (this.keySPACE.isDown) {
-        this.player.setData('isShooting', true)
+        this.player.shoot()
       } else {
-        this.player.setData(
-          'timerShootTick',
-          this.player.getData('timerShootDelay')
-        )
-
-        this.player.setData('isShooting', false)
+        this.player.stopShooting()
       }
     }
 
     const enemies = this.enemies.getChildren()
     for (const enemy of enemies) {
       enemy.update()
-
-      if (
-        enemy.x < -enemy.displayWidth ||
-        enemy.x > this.game.config.width + enemy.displayWidth ||
-        enemy.y < -enemy.displayWidth * 4 ||
-        enemy.y > this.game.config.height + enemy.displayHeight
-      ) {
-        if (enemy) {
-          enemy.onDestroy?.()
-          enemy.destroy()
-        }
-      }
+      this.checkDestroy(enemy)
     }
 
     const enemyLasers = this.enemyLasers.getChildren()
     for (const laser of enemyLasers) {
       laser.update()
-
-      if (
-        laser.x < -laser.displayWidth ||
-        laser.x > this.game.config.width + laser.displayWidth ||
-        laser.y < -laser.displayWidth * 4 ||
-        laser.y > this.game.config.height + laser.displayHeight
-      ) {
-        laser.destroy()
-      }
+      this.checkDestroy(laser)
     }
 
     const playerLasers = this.playerLasers.getChildren()
     for (const laser of playerLasers) {
       laser.update()
+      this.checkDestroy(laser)
+    }
+  }
 
-      if (
-        laser.x < -laser.displayWidth ||
-        laser.x > this.game.config.width + laser.displayWidth ||
-        laser.y < -laser.displayWidth * 4 ||
-        laser.y > this.game.config.height + laser.displayHeight
-      ) {
-        laser.destroy()
-      }
+  prepareMultimedia() {
+    this.anims.create({
+      key: 'animation.player',
+      frames: this.anims.generateFrameNumbers('spritesheet.player'),
+      frameRate: 20,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'animation.enemy-small',
+      frames: this.anims.generateFrameNumbers('spritesheet.enemy-small'),
+      frameRate: 20,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'animation.enemy-medium',
+      frames: this.anims.generateFrameNumbers('spritesheet.enemy-medium'),
+      frameRate: 20,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'animation.enemy-big',
+      frames: this.anims.generateFrameNumbers('spritesheet.enemy-big'),
+      frameRate: 20,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'animation.explosion',
+      frames: this.anims.generateFrameNumbers('spritesheet.explosion'),
+      frameRate: 16,
+      repeat: 0,
+    })
+
+    this.anims.create({
+      key: 'animation.laser-player',
+      frames: this.anims.generateFrameNumbers('spritesheet.laser', {
+        frames: [2, 3],
+      }),
+      frameRate: 10,
+      repeat: -1,
+      yoyo: true,
+    })
+
+    this.anims.create({
+      key: 'animation.laser-enemy',
+      frames: this.anims.generateFrameNumbers('spritesheet.laser', {
+        frames: [0, 1],
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
+
+    this.sfx = {
+      explosions: [
+        this.sound.add('snd.explode0'),
+        this.sound.add('snd.explode1'),
+      ],
+      laser: this.sound.add('snd.laser'),
+    }
+  }
+
+  prepareController() {
+    const { UP, DOWN, LEFT, RIGHT, SPACE } = Phaser.Input.Keyboard.KeyCodes
+    this.keyUP = this.input.keyboard.addKey(UP)
+    this.keyDOWN = this.input.keyboard.addKey(DOWN)
+    this.keyLEFT = this.input.keyboard.addKey(LEFT)
+    this.keyRIGHT = this.input.keyboard.addKey(RIGHT)
+    this.keySPACE = this.input.keyboard.addKey(SPACE)
+  }
+
+  createPlayer() {
+    const initialPosition = [
+      this.game.config.width * 0.5,
+      this.game.config.height * 0.8,
+    ]
+    this.player = new Player(this, ...initialPosition)
+    this.playerLasers = this.add.group()
+  }
+
+  createEnemies() {
+    this.enemies = this.add.group()
+    this.enemyLasers = this.add.group()
+
+    this.time.addEvent({
+      delay: 1000,
+      callback: function() {
+        const enemy = this.generateEnemy()
+        if (enemy !== null) {
+          this.enemies.add(enemy)
+        }
+      },
+      callbackScope: this,
+      loop: true,
+    })
+  }
+
+  generateEnemy() {
+    let enemy = null
+
+    const position = [Phaser.Math.Between(0, this.game.config.width), 0]
+
+    const random = Phaser.Math.Between(0, 15)
+    if (random >= 10) {
+      enemy = new EnemyBig(this, ...position)
+    } else if (random >= 5) {
+      enemy = new EnemyMedium(this, ...position)
+    } else {
+      enemy = new EnemySmall(this, ...position)
+    }
+
+    return enemy
+  }
+
+  getEnemiesByType(type) {
+    const enemies = this.enemies.getChildren()
+    return enemies.filter(enemy => {
+      return enemy.getData('type') === type
+    })
+  }
+
+  checkDestroy(entity) {
+    if (
+      entity &&
+      (entity.x < -entity.displayWidth ||
+        entity.x > this.game.config.width + entity.displayWidth ||
+        entity.y < -entity.displayWidth * 4 ||
+        entity.y > this.game.config.height + entity.displayHeight)
+    ) {
+      entity.onDestroy?.()
+      entity.destroy()
     }
   }
 }

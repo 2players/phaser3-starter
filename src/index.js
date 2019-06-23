@@ -6,6 +6,7 @@ import WebFontLoaderPlugin from './plugins/web-font-loader'
 import env from './util/env'
 import dc from './util/device-compatibility'
 
+import Space from './scenes/Space'
 import MainMenu from './scenes/MainMenu'
 import Main from './scenes/Main'
 import GameOver from './scenes/GameOver'
@@ -28,7 +29,7 @@ const config = {
   width: 480,
   height: 640,
   backgroundColor: 0x000000,
-  scene: [MainMenu, Main, GameOver],
+  scene: [MainMenu, Space, Main, GameOver],
   pixelArt: true,
   roundPixels: true,
   physics: {

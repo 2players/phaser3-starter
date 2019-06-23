@@ -1,12 +1,6 @@
 import Phaser from 'phaser'
 import res from 'res'
-import {
-  Player,
-  EnemyBig,
-  EnemyMedium,
-  EnemySmall,
-  ScrollingBackground,
-} from '../Entities'
+import { Player, EnemyBig, EnemyMedium, EnemySmall } from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -63,12 +57,6 @@ class Main extends Phaser.Scene {
   create() {
     this.prepareMultimedia()
     this.prepareController()
-
-    this.backgrounds = []
-    for (var i = 0; i < 4; i++) {
-      const bg = new ScrollingBackground(this, 'image.bg0', i * 10)
-      this.backgrounds.push(bg)
-    }
 
     this.createPlayer()
     this.createEnemies()
@@ -142,11 +130,6 @@ class Main extends Phaser.Scene {
     for (const laser of playerLasers) {
       laser.update()
       this.checkDestroy(laser)
-    }
-
-    const backgrounds = this.backgrounds
-    for (const bg of backgrounds) {
-      bg.update()
     }
   }
 

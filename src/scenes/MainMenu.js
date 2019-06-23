@@ -17,10 +17,10 @@ class MainMenu extends Phaser.Scene {
     this.scene.sendToBack('Space')
 
     const centerX = this.game.config.width / 2
-    const centerY = this.game.config.width / 2
+    const centerY = this.game.config.height / 2
 
     this.add
-      .text(centerX, centerY - 100, 'SPACE SHOOTER', {
+      .text(centerX, centerY - 150, 'SPACE SHOOTER', {
         fontFamily: 'Stacked Pixel',
         fontSize: 60,
         color: '#000000',
@@ -29,7 +29,7 @@ class MainMenu extends Phaser.Scene {
       .setOrigin(0.5, 0)
 
     this.button = this.add
-      .text(centerX, centerY + 100, 'PLAY', {
+      .text(centerX, centerY + 150, 'PLAY', {
         fontFamily: 'Stacked Pixel',
         fontSize: 32,
         color: '#ffffff',
@@ -39,6 +39,22 @@ class MainMenu extends Phaser.Scene {
       .on('pointerdown', this.buttonDown, this)
       .on('pointerup', this.buttonUp, this)
       .on('pointerout', this.buttonUp, this)
+
+    const howtoText = [
+      'HOW TO PLAY',
+      '',
+      'MOVE: Arrow Keys',
+      'SHOOT: Space',
+    ].join('\n')
+
+    this.add
+      .text(centerX, centerY, howtoText, {
+        fontFamily: 'Stacked Pixel',
+        fontSize: 20,
+        color: '#ffffff',
+        align: 'center',
+      })
+      .setOrigin(0.5)
   }
 
   buttonDown() {

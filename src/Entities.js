@@ -1,11 +1,13 @@
 import Phaser from 'phaser'
 
+const { DYNAMIC_BODY } = Phaser.Physics.Arcade
+
 class Entity extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, key, type) {
     super(scene, x, y, key)
 
     this.scene.add.existing(this)
-    this.scene.physics.world.enableBody(this, 0)
+    this.scene.physics.world.enableBody(this, DYNAMIC_BODY)
     this.setData('type', type)
     this.setData('isDead', false)
   }
@@ -190,5 +192,42 @@ export class EnemyLaser extends Entity {
     this.play('animation.laser-enemy')
 
     this.body.setVelocityY(200)
+  }
+}
+
+export class ScrollingBackground {
+  constructor(scene, key, velocityY) {
+    this.scene = scene
+    this.key = key
+    this.velocityY = velocityY
+    this.layers = this.scene.add.group()
+
+    this.createLayers()
+  }
+
+  createLayers() {
+    for (let i = 0; i < 2; i++) {
+      const layer = this.scene.add.sprite(0, 0, this.key)
+      layer.x = layer.width * 0.5
+      layer.y = layer.height * (0.5 - i)
+
+      const flipX = Phaser.Math.Between(0, 10) >= 5 ? -1 : 1
+      const flipY = Phaser.Math.Between(0, 10) >= 5 ? -1 : 1
+      layer.setScale(flipX, flipY)
+      layer.setDepth(-i)
+      this.scene.physics.world.enableBody(layer, DYNAMIC_BODY)
+      layer.body.velocity.y = this.velocityY
+      this.layers.add(layer)
+    }
+  }
+
+  update() {
+    const layers = this.layers.getChildren()
+    for (const layer of layers) {
+      const isOffScreen = layer.y > 1.5 * layer.height
+      if (isOffScreen) {
+        layer.y = -0.5 * layer.height
+      }
+    }
   }
 }

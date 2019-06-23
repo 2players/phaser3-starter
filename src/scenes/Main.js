@@ -1,6 +1,12 @@
 import Phaser from 'phaser'
 import res from 'res'
-import { Player, EnemyBig, EnemyMedium, EnemySmall } from '../Entities'
+import {
+  Player,
+  EnemyBig,
+  EnemyMedium,
+  EnemySmall,
+  ScrollingBackground,
+} from '../Entities'
 
 class Main extends Phaser.Scene {
   constructor() {
@@ -8,6 +14,9 @@ class Main extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('image.bg0', res.url('image.bg0'))
+    this.load.image('image.bg0', res.url('image.bg1'))
+
     this.load.spritesheet('spritesheet.player', res.url('spritesheet.player'), {
       frameWidth: 16,
       frameHeight: 24,
@@ -58,6 +67,12 @@ class Main extends Phaser.Scene {
     this.prepareMultimedia()
     this.prepareController()
 
+    this.backgrounds = []
+    for (var i = 0; i < 4; i++) {
+      const bg = new ScrollingBackground(this, 'image.bg0', i * 10)
+      this.backgrounds.push(bg)
+    }
+
     this.createPlayer()
     this.createEnemies()
 
@@ -66,9 +81,7 @@ class Main extends Phaser.Scene {
       enemy
     ) {
       if (enemy) {
-        enemy.onDestroy?.()
         enemy.explode(true)
-
         laser.destroy()
       }
     })
@@ -132,6 +145,11 @@ class Main extends Phaser.Scene {
     for (const laser of playerLasers) {
       laser.update()
       this.checkDestroy(laser)
+    }
+
+    const backgrounds = this.backgrounds
+    for (const bg of backgrounds) {
+      bg.update()
     }
   }
 

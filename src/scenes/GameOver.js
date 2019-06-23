@@ -5,7 +5,45 @@ class GameOver extends Phaser.Scene {
     super('GameOver')
   }
 
-  create() {}
+  create() {
+    const centerX = this.game.config.width / 2
+    const centerY = this.game.config.width / 2
+
+    this.add
+      .text(centerX, centerY - 100, 'SPACE SHOOTER', {
+        fontFamily: 'Stacked Pixel',
+        fontSize: 60,
+        color: '#000000',
+      })
+      .setStroke('#ffffff', 5)
+      .setOrigin(0.5, 0)
+
+    this.button = this.add
+      .text(centerX, centerY + 100, 'RESTART', {
+        fontFamily: 'Stacked Pixel',
+        fontSize: 32,
+        color: '#ffffff',
+      })
+      .setOrigin(0.5, 0)
+      .setInteractive()
+      .on('pointerdown', this.buttonDown, this)
+      .on('pointerup', this.buttonUp, this)
+      .on('pointerout', this.buttonUp, this)
+  }
+
+  buttonDown() {
+    this.buttonPressed = true
+    this.button.y += 5
+  }
+
+  buttonUp() {
+    if (this.buttonPressed) {
+      this.buttonPressed = false
+      this.button.y -= 5
+
+      this.scene.start('Main')
+    }
+  }
 }
 
 export default GameOver

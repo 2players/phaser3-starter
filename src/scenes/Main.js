@@ -14,9 +14,6 @@ class Main extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('image.bg0', res.url('image.bg0'))
-    this.load.image('image.bg0', res.url('image.bg1'))
-
     this.load.spritesheet('spritesheet.player', res.url('spritesheet.player'), {
       frameWidth: 16,
       frameHeight: 24,

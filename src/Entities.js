@@ -214,7 +214,7 @@ export class ScrollingBackground {
       const flipX = Phaser.Math.Between(0, 10) >= 5 ? -1 : 1
       const flipY = Phaser.Math.Between(0, 10) >= 5 ? -1 : 1
       layer.setScale(flipX, flipY)
-      layer.setDepth(-i)
+      layer.setDepth(-(i + 1))
       this.scene.physics.world.enableBody(layer, DYNAMIC_BODY)
       layer.body.velocity.y = this.velocityY
       this.layers.add(layer)

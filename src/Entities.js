@@ -45,6 +45,8 @@ class Entity extends Phaser.GameObjects.Sprite {
 export class Player extends Entity {
   constructor(scene, x, y) {
     super(scene, x, y, 'spritesheet.player', 'Player')
+
+    this.setOrigin(0.5, 0)
     this.play('animation.player')
 
     this.speed = 200

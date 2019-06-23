@@ -10,11 +10,6 @@ class MainMenu extends Phaser.Scene {
     this.load.webFont('Stacked Pixel', res.url('font.stacked-pixel'))
     this.load.image('image.bg0', res.url('image.bg0'))
     this.load.image('image.bg1', res.url('image.bg1'))
-
-    this.load.image('sprBtnRestartHover', res.url('sprBtnRestartHover'))
-    this.load.image('sprBtnRestartDown', res.url('sprBtnRestartDown'))
-    this.load.audio('sndBtnOver', res.url('sndBtnOver'))
-    this.load.audio('sndBtnDown', res.url('sndBtnDown'))
   }
 
   create() {
